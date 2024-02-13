@@ -1,4 +1,4 @@
-import "./VideoPlayer.module.scss";
+import "./VideoPlayer.scss";
 
 const VideoPlayer = () => {
   return <div>VideoPlayer</div>;
