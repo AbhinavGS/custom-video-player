@@ -1,9 +1,28 @@
 .video-player {
   background-color: black;
   flex: 4;
+  display: flex;
+  justify-content: center;
+  position: relative;
 
   video {
     width: 100%;
     height: 100%;
+  }
+
+  .control-panel {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #fff;
+
+    button {
+      all: unset;
+      // background-color: red;
+      padding: 5px;
+      cursor: pointer;
+    }
   }
 }
