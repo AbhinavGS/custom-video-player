@@ -1,7 +1,7 @@
 import "./VideoPlayer.scss";
 
 const VideoPlayer = () => {
-  return <div>VideoPlayer</div>;
+  return <div className="video-player">VideoPlayer</div>;
 };
 
 export default VideoPlayer;

@@ -1,7 +1,7 @@
 import "./Playlist.scss";
 
 const Playlist = () => {
-  return <div>Playlist</div>;
+  return <div className="playlist">Playlist</div>;
 };
 
 export default Playlist;
