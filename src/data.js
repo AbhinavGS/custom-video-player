@@ -1,4 +1,4 @@
-export const mediaJSON = {
+const mediaJSON = {
   categories: [
     {
       name: "Movies",
@@ -150,3 +150,5 @@ export const mediaJSON = {
     },
   ],
 };
+
+export default mediaJSON;
