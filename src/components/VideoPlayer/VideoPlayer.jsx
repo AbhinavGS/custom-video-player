@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import "./VideoPlayer.scss";
 
@@ -5,7 +6,9 @@ import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import SkipNextRoundedIcon from "@mui/icons-material/SkipNextRounded";
 import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
-import { useRef, useEffect } from "react";
+import VolumeOffRoundedIcon from "@mui/icons-material/VolumeOffRounded";
+import VolumeDownRoundedIcon from "@mui/icons-material/VolumeDownRounded";
+import { useRef, useEffect, useState } from "react";
 
 import mediaJSON from "../../data";
 
@@ -17,6 +20,7 @@ const VideoPlayer = ({
   setCurrentPlayingIdx,
 }) => {
   const videoRef = useRef(null);
+  const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -42,6 +46,12 @@ const VideoPlayer = ({
     });
   };
 
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+    videoRef.current.volume = isMuted;
+    videoRef.muted = isMuted === true;
+  };
+
   return (
     <div className="video-player">
       <video ref={videoRef} poster={videos[currentPlayingIdx]["thumb"]}>
@@ -62,9 +72,21 @@ const VideoPlayer = ({
         <button onClick={handleNextButton}>
           <SkipNextRoundedIcon sx={{ fontSize: 30 }} />
         </button>
-        <button>
-          <VolumeUpRoundedIcon sx={{ fontSize: 30 }} />
+        <button onClick={toggleMute}>
+          {isMuted ? (
+            <VolumeOffRoundedIcon sx={{ fontSize: 30 }} />
+          ) : (
+            <VolumeDownRoundedIcon sx={{ fontSize: 30 }} />
+          )}
         </button>
+        <input
+          className="volume-slider"
+          type="range"
+          min="0"
+          max="1"
+          step="any"
+          // value="1"
+        ></input>
       </div>
     </div>
   );
