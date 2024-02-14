@@ -23,12 +23,12 @@ const VideoPlayer = ({
   const [volume, setVolume] = useState(1);
   const [previousVolume, setPreviousVolume] = useState(1);
 
-  // useEffect(() => {
-  //   if (videoRef.current) {
-  //     videoRef.current.load();
-  //     videoRef.current.play();
-  //   }
-  // }, [currentPlayingIdx]);
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play();
+    }
+  }, [currentPlayingIdx]);
 
   const togglePlayPause = () => {
     if (videoRef.current.paused) {
