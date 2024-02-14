@@ -1,18 +1,29 @@
+/* eslint-disable react/prop-types */
 import "./VideoPlayer.scss";
 
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import SkipNextRoundedIcon from "@mui/icons-material/SkipNextRounded";
 import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
-import { useState, useRef } from "react";
+import { useRef, useEffect } from "react";
 
 import mediaJSON from "../../data";
 
 const videos = mediaJSON["categories"][0]["videos"];
-const VideoPlayer = () => {
-  const [isPlaying, setIsPlaying] = useState("false");
-  const [currentPlayingIdx, setCurrentPlayingIdx] = useState(0);
+const VideoPlayer = ({
+  isPlaying,
+  setIsPlaying,
+  currentPlayingIdx,
+  setCurrentPlayingIdx,
+}) => {
   const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play();
+    }
+  }, [currentPlayingIdx]);
 
   const togglePlayPause = () => {
     if (videoRef.current.paused) {
@@ -43,9 +54,9 @@ const VideoPlayer = () => {
       <div className="control-panel">
         <button className="btn-play-pause" onClick={togglePlayPause}>
           {isPlaying ? (
-            <PlayArrowRoundedIcon sx={{ fontSize: 30 }} />
-          ) : (
             <PauseRoundedIcon sx={{ fontSize: 30 }} />
+          ) : (
+            <PlayArrowRoundedIcon sx={{ fontSize: 30 }} />
           )}
         </button>
         <button onClick={handleNextButton}>

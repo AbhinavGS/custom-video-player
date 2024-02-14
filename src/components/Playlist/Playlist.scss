@@ -1,4 +1,8 @@
 .playlist {
   background-color: yellowgreen;
   flex: 2;
+
+  .active {
+    color: red;
+  }
 }
