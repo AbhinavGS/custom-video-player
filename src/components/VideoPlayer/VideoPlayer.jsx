@@ -20,14 +20,15 @@ const VideoPlayer = ({
   setCurrentPlayingIdx,
 }) => {
   const videoRef = useRef(null);
-  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [previousVolume, setPreviousVolume] = useState(1);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load();
-      videoRef.current.play();
-    }
-  }, [currentPlayingIdx]);
+  // useEffect(() => {
+  //   if (videoRef.current) {
+  //     videoRef.current.load();
+  //     videoRef.current.play();
+  //   }
+  // }, [currentPlayingIdx]);
 
   const togglePlayPause = () => {
     if (videoRef.current.paused) {
@@ -47,9 +48,23 @@ const VideoPlayer = ({
   };
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
-    videoRef.current.volume = isMuted;
-    videoRef.muted = isMuted === true;
+    if (videoRef.current.muted) {
+      videoRef.current.muted = false;
+      setVolume(previousVolume);
+    } else {
+      setPreviousVolume(volume);
+      videoRef.current.muted = true;
+      setVolume(0);
+    }
+  };
+
+  const handleVideoVolume = (e) => {
+    setVolume(e.target.value);
+    videoRef.current.volume = e.target.value;
+    if (e.target.value > 0) {
+      setPreviousVolume(e.target.value);
+      videoRef.current.muted = false;
+    } else setPreviousVolume(1);
   };
 
   return (
@@ -73,19 +88,22 @@ const VideoPlayer = ({
           <SkipNextRoundedIcon sx={{ fontSize: 30 }} />
         </button>
         <button onClick={toggleMute}>
-          {isMuted ? (
+          {volume == 0 ? (
             <VolumeOffRoundedIcon sx={{ fontSize: 30 }} />
-          ) : (
+          ) : volume < 0.3 ? (
             <VolumeDownRoundedIcon sx={{ fontSize: 30 }} />
+          ) : (
+            <VolumeUpRoundedIcon sx={{ fontSize: 30 }} />
           )}
         </button>
         <input
           className="volume-slider"
           type="range"
-          min="0"
-          max="1"
+          min={0}
+          max={1}
           step="any"
-          // value="1"
+          value={volume}
+          onChange={handleVideoVolume}
         ></input>
       </div>
     </div>
