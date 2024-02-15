@@ -22,6 +22,7 @@ const VideoPlayer = ({
 }) => {
   const videoRef = useRef(null);
   const timelineRef = useRef(null);
+  const videoPlayerRef = useRef(null);
   const [volume, setVolume] = useState(1);
   const [previousVolume, setPreviousVolume] = useState(1);
   const [initialRender, setInitialRender] = useState(true);
@@ -31,6 +32,9 @@ const VideoPlayer = ({
 
   const [percentageCompletion, setPercentageCompletion] = useState(0);
   const [previewPercentage, setPreviewPercentage] = useState(0);
+
+  const [isScrubbing, setIsScrubbing] = useState(false);
+  const [wasPaused, setWasPaused] = useState(false);
 
   useEffect(() => {
     if (!initialRender && videoRef.current) {
@@ -82,6 +86,23 @@ const VideoPlayer = ({
     setTotalTime(formatDuration(videoRef.current.duration));
   };
 
+  function toggleScrubbing(e) {
+    const rect = timelineRef.current.getBoundingClientRect();
+    const percent =
+      Math.min(Math.max(0, e.clientX - rect.x), rect.width) / rect.width;
+    setPercentageCompletion(percent);
+    console.log((e.buttons & 1) === 1);
+    setIsScrubbing((e.buttons & 1) === 1);
+    videoPlayerRef.current.classList.toggle("scrubbing", isScrubbing);
+    if (isScrubbing) {
+      setWasPaused(videoRef.current.paused);
+      videoRef.current.pause();
+    } else {
+      videoRef.current.currentTime = percent * videoRef.current.duration;
+      if (!wasPaused) videoRef.current.play();
+    }
+  }
+
   const handleTimelineUpdates = (e) => {
     const rect = timelineRef.current.getBoundingClientRect();
     const percent =
@@ -102,10 +123,28 @@ const VideoPlayer = ({
       "--progress-position",
       percentageCompletion
     );
+
+    // scrubbing logic
+    if (isScrubbing) {
+      e.preventDefault();
+      timelineRef.current.style.setProperty(
+        "--progress-position",
+        percentageCompletion
+      );
+    }
   };
 
   return (
-    <div className="video-player">
+    <div
+      className="video-player"
+      ref={videoPlayerRef}
+      onMouseUp={(e) => {
+        if (isScrubbing) toggleScrubbing(e);
+      }}
+      onMouseMove={(e) => {
+        if (isScrubbing) handleTimelineUpdates(e);
+      }}
+    >
       <video
         ref={videoRef}
         poster={videos[currentPlayingIdx]["thumb"]}
@@ -123,6 +162,7 @@ const VideoPlayer = ({
           ref={timelineRef}
           className="timeline-container"
           onMouseMove={handleTimelineUpdates}
+          onMouseDown={toggleScrubbing}
         >
           <div className="timeline">
             <div className="thumb-indicator"></div>
