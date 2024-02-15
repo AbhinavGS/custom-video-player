@@ -8,6 +8,7 @@ import SkipNextRoundedIcon from "@mui/icons-material/SkipNextRounded";
 import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
 import VolumeOffRoundedIcon from "@mui/icons-material/VolumeOffRounded";
 import VolumeDownRoundedIcon from "@mui/icons-material/VolumeDownRounded";
+import { formatDuration } from "../../utils";
 import { useRef, useEffect, useState } from "react";
 
 import mediaJSON from "../../data";
@@ -24,10 +25,13 @@ const VideoPlayer = ({
   const [previousVolume, setPreviousVolume] = useState(1);
   const [initialRender, setInitialRender] = useState(true);
 
+  const [totalTime, setTotalTime] = useState("00:00");
+  const [currentTime, setCurrentTime] = useState("00:00");
+
   useEffect(() => {
     if (!initialRender && videoRef.current) {
       videoRef.current.load();
-      videoRef.current.play();
+      // videoRef.current.play();
     } else {
       setInitialRender(false);
     }
@@ -70,9 +74,22 @@ const VideoPlayer = ({
     } else setPreviousVolume(1);
   };
 
+  const handleLoadedData = () => {
+    setTotalTime(formatDuration(videoRef.current.duration));
+  };
+
+  const handleCurrentProgress = () => {
+    setCurrentTime(formatDuration(videoRef.current.currentTime));
+  };
+
   return (
     <div className="video-player">
-      <video ref={videoRef} poster={videos[currentPlayingIdx]["thumb"]}>
+      <video
+        ref={videoRef}
+        poster={videos[currentPlayingIdx]["thumb"]}
+        onLoadedData={handleLoadedData}
+        onTimeUpdate={handleCurrentProgress}
+      >
         <source
           src={videos[currentPlayingIdx]["sources"][0]}
           type="video/mp4"
@@ -90,6 +107,10 @@ const VideoPlayer = ({
         <button onClick={handleNextButton}>
           <SkipNextRoundedIcon sx={{ fontSize: 30 }} />
         </button>
+        <div className="duration-container">
+          <div className="current-time">{currentTime}</div>/
+          <div className="total-time">{totalTime}</div>
+        </div>
         <button onClick={toggleMute}>
           {volume == 0 ? (
             <VolumeOffRoundedIcon sx={{ fontSize: 30 }} />
