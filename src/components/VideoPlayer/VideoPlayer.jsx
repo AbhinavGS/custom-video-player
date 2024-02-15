@@ -30,6 +30,7 @@ const VideoPlayer = ({
   const [currentTime, setCurrentTime] = useState("00:00");
 
   const [percentageCompletion, setPercentageCompletion] = useState(0);
+  const [previewPercentage, setPreviewPercentage] = useState(0);
 
   useEffect(() => {
     if (!initialRender && videoRef.current) {
@@ -81,7 +82,16 @@ const VideoPlayer = ({
     setTotalTime(formatDuration(videoRef.current.duration));
   };
 
-  const handleCurrentProgress = () => {
+  const handleTimelineUpdates = (e) => {
+    const rect = timelineRef.current.getBoundingClientRect();
+    const percent =
+      Math.min(Math.max(0, e.clientX - rect.x), rect.width) / rect.width;
+    setPreviewPercentage(percent);
+
+    timelineRef.current.style.setProperty(
+      "--preview-position",
+      previewPercentage
+    );
     setCurrentTime(formatDuration(videoRef.current.currentTime));
 
     setPercentageCompletion(
@@ -100,7 +110,7 @@ const VideoPlayer = ({
         ref={videoRef}
         poster={videos[currentPlayingIdx]["thumb"]}
         onLoadedData={handleLoadedData}
-        onTimeUpdate={handleCurrentProgress}
+        onTimeUpdate={handleTimelineUpdates}
       >
         <source
           src={videos[currentPlayingIdx]["sources"][0]}
@@ -109,7 +119,11 @@ const VideoPlayer = ({
         Your browser does not support HTML video.
       </video>
       <div className="control-panel">
-        <div ref={timelineRef} className="timeline-container">
+        <div
+          ref={timelineRef}
+          className="timeline-container"
+          onMouseMove={handleTimelineUpdates}
+        >
           <div className="timeline">
             <div className="thumb-indicator"></div>
           </div>
