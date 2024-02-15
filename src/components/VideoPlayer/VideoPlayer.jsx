@@ -21,12 +21,15 @@ const VideoPlayer = ({
   setCurrentPlayingIdx,
 }) => {
   const videoRef = useRef(null);
+  const timelineRef = useRef(null);
   const [volume, setVolume] = useState(1);
   const [previousVolume, setPreviousVolume] = useState(1);
   const [initialRender, setInitialRender] = useState(true);
 
   const [totalTime, setTotalTime] = useState("00:00");
   const [currentTime, setCurrentTime] = useState("00:00");
+
+  const [percentageCompletion, setPercentageCompletion] = useState(0);
 
   useEffect(() => {
     if (!initialRender && videoRef.current) {
@@ -80,6 +83,15 @@ const VideoPlayer = ({
 
   const handleCurrentProgress = () => {
     setCurrentTime(formatDuration(videoRef.current.currentTime));
+
+    setPercentageCompletion(
+      videoRef.current.currentTime / videoRef.current.duration
+    );
+
+    timelineRef.current.style.setProperty(
+      "--progress-position",
+      percentageCompletion
+    );
   };
 
   return (
@@ -97,38 +109,45 @@ const VideoPlayer = ({
         Your browser does not support HTML video.
       </video>
       <div className="control-panel">
-        <button className="btn-play-pause" onClick={togglePlayPause}>
-          {isPlaying ? (
-            <PauseRoundedIcon sx={{ fontSize: 30 }} />
-          ) : (
-            <PlayArrowRoundedIcon sx={{ fontSize: 30 }} />
-          )}
-        </button>
-        <button onClick={handleNextButton}>
-          <SkipNextRoundedIcon sx={{ fontSize: 30 }} />
-        </button>
-        <div className="duration-container">
-          <div className="current-time">{currentTime}</div>/
-          <div className="total-time">{totalTime}</div>
+        <div ref={timelineRef} className="timeline-container">
+          <div className="timeline">
+            <div className="thumb-indicator"></div>
+          </div>
         </div>
-        <button onClick={toggleMute}>
-          {volume == 0 ? (
-            <VolumeOffRoundedIcon sx={{ fontSize: 30 }} />
-          ) : volume < 0.3 ? (
-            <VolumeDownRoundedIcon sx={{ fontSize: 30 }} />
-          ) : (
-            <VolumeUpRoundedIcon sx={{ fontSize: 30 }} />
-          )}
-        </button>
-        <input
-          className="volume-slider"
-          type="range"
-          min={0}
-          max={1}
-          step="any"
-          value={volume}
-          onChange={handleVideoVolume}
-        ></input>
+        <div className="controls">
+          <button className="btn-play-pause" onClick={togglePlayPause}>
+            {isPlaying ? (
+              <PauseRoundedIcon sx={{ fontSize: 30 }} />
+            ) : (
+              <PlayArrowRoundedIcon sx={{ fontSize: 30 }} />
+            )}
+          </button>
+          <button onClick={handleNextButton}>
+            <SkipNextRoundedIcon sx={{ fontSize: 30 }} />
+          </button>
+          <div className="duration-container">
+            <div className="current-time">{currentTime}</div>/
+            <div className="total-time">{totalTime}</div>
+          </div>
+          <button onClick={toggleMute}>
+            {volume == 0 ? (
+              <VolumeOffRoundedIcon sx={{ fontSize: 30 }} />
+            ) : volume < 0.3 ? (
+              <VolumeDownRoundedIcon sx={{ fontSize: 30 }} />
+            ) : (
+              <VolumeUpRoundedIcon sx={{ fontSize: 30 }} />
+            )}
+          </button>
+          <input
+            className="volume-slider"
+            type="range"
+            min={0}
+            max={1}
+            step="any"
+            value={volume}
+            onChange={handleVideoVolume}
+          ></input>
+        </div>
       </div>
     </div>
   );
