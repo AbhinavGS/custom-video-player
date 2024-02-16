@@ -86,9 +86,9 @@ const mediaJSON = {
           sources: [
             "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.jpg",
           ],
-          subtitle:
+          subtitle: "By Sintel foundation",
+          thumb:
             "https://storage.googleapis.com/gtv-videos-bucket/sample/images/Sintel.jpg",
-          thumb: "images/Sintel.jpg",
           title: "Sintel",
         },
         {
@@ -109,18 +109,19 @@ const mediaJSON = {
             "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
           ],
           subtitle: "By Blender Foundation",
-          thumb: "images/TearsOfSteel.jpg",
+          thumb:
+            "https://storage.googleapis.com/gtv-videos-bucket/sample/images/TearsOfSteel.jpg",
           title: "Tears of Steel",
         },
         {
           description:
             "The Smoking Tire heads out to Adams Motorsports Park in Riverside, CA to test the most requested car of 2010, the Volkswagen GTI. Will it beat the Mazdaspeed3's standard-setting lap time? Watch and see...",
           sources: [
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
           ],
           subtitle: "By Garage419",
           thumb:
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/images/TearsOfSteel.jpg",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/VolkswagenGTIReview.jpg",
           title: "Volkswagen GTI Review",
         },
         {
