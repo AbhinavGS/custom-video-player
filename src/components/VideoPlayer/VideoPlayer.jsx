@@ -159,13 +159,16 @@ const VideoPlayer = ({
   }
 
   function handlePIPMode() {
-    console.log("first");
     if (!isPIPMode) {
       videoRef.current.requestPictureInPicture();
     } else {
       document.exitPictureInPicture();
     }
     setIsPIPMode(!isPIPMode);
+  }
+
+  function handleNextPlay() {
+    setCurrentPlayingIdx((idx) => idx + 1);
   }
 
   return (
@@ -184,6 +187,7 @@ const VideoPlayer = ({
         poster={videos[currentPlayingIdx]["thumb"]}
         onLoadedData={handleLoadedData}
         onTimeUpdate={handleTimelineUpdates}
+        onEnded={handleNextPlay}
       >
         <source
           src={videos[currentPlayingIdx]["sources"][0]}
