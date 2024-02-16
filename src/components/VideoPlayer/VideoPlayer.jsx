@@ -213,28 +213,30 @@ const VideoPlayer = ({
           <button onClick={handleNextButton}>
             <SkipNextRoundedIcon sx={{ fontSize: 30 }} />
           </button>
+          <div className="volume-container">
+            <button onClick={toggleMute} className="mute-btn">
+              {volume == 0 ? (
+                <VolumeOffRoundedIcon sx={{ fontSize: 30 }} />
+              ) : volume < 0.3 ? (
+                <VolumeDownRoundedIcon sx={{ fontSize: 30 }} />
+              ) : (
+                <VolumeUpRoundedIcon sx={{ fontSize: 30 }} />
+              )}
+            </button>
+            <input
+              className="volume-slider"
+              type="range"
+              min={0}
+              max={1}
+              step="any"
+              value={volume}
+              onChange={handleVideoVolume}
+            ></input>
+          </div>
           <div className="duration-container">
             <div className="current-time">{currentTime}</div>/
             <div className="total-time">{totalTime}</div>
           </div>
-          <button onClick={toggleMute}>
-            {volume == 0 ? (
-              <VolumeOffRoundedIcon sx={{ fontSize: 30 }} />
-            ) : volume < 0.3 ? (
-              <VolumeDownRoundedIcon sx={{ fontSize: 30 }} />
-            ) : (
-              <VolumeUpRoundedIcon sx={{ fontSize: 30 }} />
-            )}
-          </button>
-          <input
-            className="volume-slider"
-            type="range"
-            min={0}
-            max={1}
-            step="any"
-            value={volume}
-            onChange={handleVideoVolume}
-          ></input>
           <button className="speed-btn wide-btn" onClick={handlePlaybackSpeed}>
             {playbackRate}x
           </button>

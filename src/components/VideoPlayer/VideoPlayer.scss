@@ -19,7 +19,6 @@
 
     button {
       all: unset;
-      // background-color: red;
       padding: 5px;
       cursor: pointer;
     }
@@ -28,6 +27,7 @@
       display: flex;
       align-items: center;
       gap: 0.25rem;
+      flex-grow: 1;
     }
   }
 }
@@ -98,4 +98,26 @@
 .video-container.scrubbing .timeline,
 .timeline-container:hover .timeline {
   height: 100%;
+}
+
+svg {
+  vertical-align: middle;
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+}
+
+.volume-slider {
+  width: 0;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: width 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.volume-container:hover .volume-slider,
+.volume-slider:focus-within {
+  width: 100px;
+  transform: scaleX(1);
 }
