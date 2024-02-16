@@ -4,8 +4,7 @@
   :not(:last-child) {
     margin-bottom: 10px;
   }
-  height: 100vh;
-  overflow-y: scroll;
+
   background-color: black;
   color: white;
   padding: 1rem;
@@ -46,5 +45,12 @@
 
   .active {
     background-color: #333;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .playlist {
+    height: 100vh;
+    overflow-y: scroll;
   }
 }
