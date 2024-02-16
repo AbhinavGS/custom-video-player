@@ -29,7 +29,7 @@ const Playlist = ({
         return (
           <div
             className={
-              index === currentPlayingIdx
+              videosData[currentPlayingIdx].title == video.title
                 ? "playlist-card active"
                 : "playlist-card"
             }
