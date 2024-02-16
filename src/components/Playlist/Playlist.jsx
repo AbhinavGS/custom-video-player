@@ -17,7 +17,11 @@ const Playlist = ({
       {videos.map((video, index) => {
         return (
           <div
-            className="playlist-card"
+            className={
+              index === currentPlayingIdx
+                ? "playlist-card active"
+                : "playlist-card"
+            }
             key={video["title"]}
             onClick={() => {
               setCurrentPlayingIdx(index);
