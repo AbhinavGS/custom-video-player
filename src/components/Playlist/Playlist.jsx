@@ -3,8 +3,9 @@
 import "./Playlist.scss";
 
 import mediaJSON from "../../data";
+import { useRef, useState } from "react";
 
-const videos = mediaJSON["categories"][0]["videos"];
+const videosData = mediaJSON["categories"][0]["videos"];
 
 const Playlist = ({
   isPlaying,
@@ -12,6 +13,16 @@ const Playlist = ({
   currentPlayingIdx,
   setCurrentPlayingIdx,
 }) => {
+  const [videos, setVideos] = useState(videosData);
+  const dragVideo = useRef(0);
+  const draggedOverVideo = useRef(0);
+
+  function handleSort() {
+    const videoClone = [...videos];
+    const temp = videoClone.splice(dragVideo.current, 1)[0];
+    videoClone.splice(draggedOverVideo.current, 0, temp);
+    setVideos(videoClone);
+  }
   return (
     <div className="playlist">
       {videos.map((video, index) => {
@@ -27,6 +38,11 @@ const Playlist = ({
               setCurrentPlayingIdx(index);
               setIsPlaying(true);
             }}
+            draggable
+            onDragStart={() => (dragVideo.current = index)}
+            onDragEnter={() => (draggedOverVideo.current = index)}
+            onDragEnd={handleSort}
+            onDragOver={(e) => e.preventDefault()}
           >
             <div className="playlist-card-image">
               <img src={video.thumb} />
