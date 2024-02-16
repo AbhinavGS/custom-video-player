@@ -1,8 +1,52 @@
 .playlist {
-  background-color: yellowgreen;
   flex: 2;
+  justify-content: center;
+  :not(:last-child) {
+    margin-bottom: 10px;
+  }
+  height: 100vh;
+  overflow-y: scroll;
+  background-color: black;
+  color: white;
+  padding: 1rem;
+
+  .playlist-card {
+    cursor: pointer;
+    display: flex;
+    overflow: hidden;
+    background-color: #0b1014;
+    border-radius: 10px;
+    padding: 10px;
+
+    .playlist-card-image {
+      border-radius: 10px;
+      margin: 0;
+      img {
+        display: block;
+        width: 120px;
+        border-radius: 10px;
+      }
+    }
+    .playlist-card-details {
+      h3,
+      p {
+        margin: 0;
+      }
+
+      padding: 0 1rem;
+      width: 100%;
+    }
+  }
 
   .active {
     color: red;
   }
 }
+
+// li {
+//   width: 100%;
+//   cursor: pointer;
+//   list-style: none;
+//   border: 1px solid;
+//   padding: 0.5rem;
+// }

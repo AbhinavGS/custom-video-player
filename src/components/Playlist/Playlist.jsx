@@ -14,25 +14,34 @@ const Playlist = ({
 }) => {
   return (
     <div className="playlist">
-      <ul>
-        {videos.map((video, index) => {
-          return (
-            <div
-              key={video["title"]}
-              onClick={() => {
-                setCurrentPlayingIdx(index);
-                setIsPlaying(true);
-              }}
-            >
-              <li className={index === currentPlayingIdx ? "active" : ""}>
-                {video["title"]}
-              </li>
+      {videos.map((video, index) => {
+        return (
+          <div
+            className="playlist-card"
+            key={video["title"]}
+            onClick={() => {
+              setCurrentPlayingIdx(index);
+              setIsPlaying(true);
+            }}
+          >
+            <div className="playlist-card-image">
+              <img src={video.thumb} />
             </div>
-          );
-        })}
-      </ul>
+            <div className="playlist-card-details">
+              <h3>{video.title}</h3>
+              <p>{video.subtitle}</p>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
 
 export default Playlist;
+
+{
+  /* <li className={index === currentPlayingIdx ? "active" : ""}>
+  {video["title"]}
+</li> */
+}
