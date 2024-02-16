@@ -8,6 +8,9 @@ import SkipNextRoundedIcon from "@mui/icons-material/SkipNextRounded";
 import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
 import VolumeOffRoundedIcon from "@mui/icons-material/VolumeOffRounded";
 import VolumeDownRoundedIcon from "@mui/icons-material/VolumeDownRounded";
+import PictureInPictureAltRoundedIcon from "@mui/icons-material/PictureInPictureAltRounded";
+import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
+import FullscreenExitRoundedIcon from "@mui/icons-material/FullscreenExitRounded";
 import { formatDuration } from "../../utils";
 import { useRef, useEffect, useState } from "react";
 
@@ -35,6 +38,9 @@ const VideoPlayer = ({
 
   const [isScrubbing, setIsScrubbing] = useState(false);
   const [wasPaused, setWasPaused] = useState(false);
+  const [playbackRate, setPlaybackRate] = useState(1);
+  const [isFullscreen, setIsFullScreen] = useState(false);
+  const [isPIPMode, setIsPIPMode] = useState(false);
 
   useEffect(() => {
     if (!initialRender && videoRef.current) {
@@ -134,6 +140,34 @@ const VideoPlayer = ({
     }
   };
 
+  function handlePlaybackSpeed() {
+    console.log(videoRef.current.playbackRate);
+    let newPlaybackRate = videoRef.current.playbackRate + 0.25;
+    if (newPlaybackRate > 2) newPlaybackRate = 0.25;
+    videoRef.current.playbackRate = newPlaybackRate;
+    setPlaybackRate(newPlaybackRate);
+  }
+
+  function handleFullScreen() {
+    if (!isFullscreen) {
+      videoPlayerRef.current.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+
+    setIsFullScreen(!isFullscreen);
+  }
+
+  function handlePIPMode() {
+    console.log("first");
+    if (!isPIPMode) {
+      videoRef.current.requestPictureInPicture();
+    } else {
+      document.exitPictureInPicture();
+    }
+    setIsPIPMode(!isPIPMode);
+  }
+
   return (
     <div
       className="video-player"
@@ -201,6 +235,20 @@ const VideoPlayer = ({
             value={volume}
             onChange={handleVideoVolume}
           ></input>
+          <button className="speed-btn wide-btn" onClick={handlePlaybackSpeed}>
+            {playbackRate}x
+          </button>
+          <button className="mini-player-btn" onClick={handlePIPMode}>
+            <PictureInPictureAltRoundedIcon />
+          </button>
+
+          <button className="full-screen-btn" onClick={handleFullScreen}>
+            {isFullscreen ? (
+              <FullscreenExitRoundedIcon />
+            ) : (
+              <FullscreenRoundedIcon />
+            )}
+          </button>
         </div>
       </div>
     </div>
