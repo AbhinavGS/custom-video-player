@@ -27,16 +27,14 @@ const VideoPlayer = ({
   const timelineRef = useRef(null);
   const videoPlayerRef = useRef(null);
   const dataLoaded = useRef(false);
+  const initialRender = useRef(true);
+
   const [volume, setVolume] = useState(1);
   const [previousVolume, setPreviousVolume] = useState(1);
-  const [initialRender, setInitialRender] = useState(true);
-
   const [totalTime, setTotalTime] = useState("00:00");
   const [currentTime, setCurrentTime] = useState("00:00");
-
   const [percentageCompletion, setPercentageCompletion] = useState(0);
   const [previewPercentage, setPreviewPercentage] = useState(0);
-
   const [isScrubbing, setIsScrubbing] = useState(false);
   const [wasPaused, setWasPaused] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
@@ -46,11 +44,11 @@ const VideoPlayer = ({
   useEffect(() => {
     if (!initialRender && videoRef.current) {
       videoRef.current.load();
-      // videoRef.current.play();
+      videoRef.current.play();
     } else {
-      setInitialRender(false);
+      initialRender.current = false;
     }
-  }, [currentPlayingIdx, initialRender]);
+  }, [currentPlayingIdx]);
 
   const togglePlayPause = () => {
     if (videoRef.current.paused) {

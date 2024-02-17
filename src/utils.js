@@ -9,9 +9,11 @@ function formatDuration(time) {
   const hours = Math.floor(time / 3600);
 
   if (hours === 0)
-    formattedTime = `${minutes}:${customFormatter.format(seconds)}`;
+    formattedTime = `${customFormatter.format(
+      minutes
+    )}:${customFormatter.format(seconds)}`;
   else
-    formattedTime = `${hours}:${customFormatter.format(
+    formattedTime = `${customFormatter.format(hours)}:${customFormatter.format(
       minutes
     )}:${customFormatter.format(seconds)}`;
 
