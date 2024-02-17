@@ -54,3 +54,14 @@
     overflow-y: scroll;
   }
 }
+
+.drag-handle {
+  align-self: center;
+  cursor: grab;
+}
+
+.drag-handle::after {
+  content: "⠿";
+  font-size: 25px;
+  color: #555;
+}

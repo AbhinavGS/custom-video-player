@@ -164,10 +164,6 @@ const VideoPlayer = ({
     setIsPIPMode(!isPIPMode);
   }
 
-  // function handleNextPlay() {
-  //   setCurrentPlayingIdx((idx) => idx + 1);
-  // }
-
   return (
     <div
       className="video-player"

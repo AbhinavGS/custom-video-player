@@ -14,6 +14,8 @@ const Playlist = ({
   setCurrentPlayingIdx,
 }) => {
   const [videos, setVideos] = useState(videosData);
+  const [isPlaylistCardOnClicked, setIsPlaylistCardOnClicked] = useState(false);
+
   const dragVideo = useRef(0);
   const draggedOverVideo = useRef(0);
 
@@ -51,6 +53,11 @@ const Playlist = ({
               <h3>{video.title}</h3>
               <p>{video.subtitle}</p>
             </div>
+            <span
+              className="drag-handle"
+              onMouseDown={() => setIsPlaylistCardOnClicked(true)}
+              onMouseUp={() => setIsPlaylistCardOnClicked(false)}
+            />
           </div>
         );
       })}
@@ -59,9 +66,3 @@ const Playlist = ({
 };
 
 export default Playlist;
-
-{
-  /* <li className={index === currentPlayingIdx ? "active" : ""}>
-  {video["title"]}
-</li> */
-}
