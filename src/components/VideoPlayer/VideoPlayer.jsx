@@ -26,6 +26,7 @@ const VideoPlayer = ({
   const videoRef = useRef(null);
   const timelineRef = useRef(null);
   const videoPlayerRef = useRef(null);
+  const dataLoaded = useRef(false);
   const [volume, setVolume] = useState(1);
   const [previousVolume, setPreviousVolume] = useState(1);
   const [initialRender, setInitialRender] = useState(true);
@@ -89,6 +90,7 @@ const VideoPlayer = ({
   };
 
   const handleLoadedData = () => {
+    dataLoaded.current = true;
     setTotalTime(formatDuration(videoRef.current.duration));
   };
 
@@ -112,7 +114,7 @@ const VideoPlayer = ({
     const rect = timelineRef.current.getBoundingClientRect();
     const percent =
       Math.min(Math.max(0, e.clientX - rect.x), rect.width) / rect.width;
-    setPreviewPercentage(percent);
+    if (!isNaN(percent)) setPreviewPercentage(percent);
 
     timelineRef.current.style.setProperty(
       "--preview-position",
@@ -185,7 +187,8 @@ const VideoPlayer = ({
           handleTimelineUpdates(e);
           const percent =
             videoRef.current.currentTime / videoRef.current.duration;
-          setPercentageCompletion(percent);
+          if (!isNaN(videoRef.current.duration))
+            setPercentageCompletion(percent);
         }}
         onEnded={handleNextPlay}
       >
@@ -199,8 +202,8 @@ const VideoPlayer = ({
         <div
           ref={timelineRef}
           className="timeline-container"
-          onMouseMove={handleTimelineUpdates}
-          onMouseDown={toggleScrubbing}
+          onMouseMove={(e) => handleTimelineUpdates(e)}
+          onMouseDown={(e) => toggleScrubbing(e)}
         >
           <div className="timeline">
             <div className="thumb-indicator"></div>
