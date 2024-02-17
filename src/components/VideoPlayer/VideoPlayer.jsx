@@ -97,7 +97,6 @@ const VideoPlayer = ({
     const percent =
       Math.min(Math.max(0, e.clientX - rect.x), rect.width) / rect.width;
     setPercentageCompletion(percent);
-    console.log((e.buttons & 1) === 1);
     setIsScrubbing((e.buttons & 1) === 1);
     videoPlayerRef.current.classList.toggle("scrubbing", isScrubbing);
     if (!isScrubbing) {
@@ -182,7 +181,12 @@ const VideoPlayer = ({
         ref={videoRef}
         poster={videos[currentPlayingIdx]["thumb"]}
         onLoadedData={handleLoadedData}
-        onTimeUpdate={handleTimelineUpdates}
+        onTimeUpdate={(e) => {
+          handleTimelineUpdates(e);
+          const percent =
+            videoRef.current.currentTime / videoRef.current.duration;
+          setPercentageCompletion(percent);
+        }}
         onEnded={handleNextPlay}
       >
         <source
