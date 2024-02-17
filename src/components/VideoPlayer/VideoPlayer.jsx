@@ -100,12 +100,12 @@ const VideoPlayer = ({
     console.log((e.buttons & 1) === 1);
     setIsScrubbing((e.buttons & 1) === 1);
     videoPlayerRef.current.classList.toggle("scrubbing", isScrubbing);
-    if (isScrubbing) {
+    if (!isScrubbing) {
       setWasPaused(videoRef.current.paused);
       videoRef.current.pause();
     } else {
-      videoRef.current.currentTime = percent * videoRef.current.duration;
       if (!wasPaused) videoRef.current.play();
+      videoRef.current.currentTime = percent * videoRef.current.duration;
     }
   }
 
@@ -121,10 +121,6 @@ const VideoPlayer = ({
     );
     setCurrentTime(formatDuration(videoRef.current.currentTime));
 
-    setPercentageCompletion(
-      videoRef.current.currentTime / videoRef.current.duration
-    );
-
     timelineRef.current.style.setProperty(
       "--progress-position",
       percentageCompletion
@@ -132,6 +128,7 @@ const VideoPlayer = ({
 
     // scrubbing logic
     if (isScrubbing) {
+      setPercentageCompletion(percent);
       e.preventDefault();
       timelineRef.current.style.setProperty(
         "--progress-position",
@@ -141,7 +138,6 @@ const VideoPlayer = ({
   };
 
   function handlePlaybackSpeed() {
-    console.log(videoRef.current.playbackRate);
     let newPlaybackRate = videoRef.current.playbackRate + 0.25;
     if (newPlaybackRate > 2) newPlaybackRate = 0.25;
     videoRef.current.playbackRate = newPlaybackRate;
