@@ -120,4 +120,26 @@ svg {
 .volume-slider:focus-within {
   width: 100px;
   transform: scaleX(1);
+  margin-right: 10px;
+}
+
+input[type="range"] {
+  appearance: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  border-radius: 10px;
+  height: 3px;
+  background-color: #fff;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  background: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  margin-right: 5px;
+  -webkit-appearance: none;
 }

@@ -46,6 +46,7 @@ const VideoPlayer = ({
       videoRef.current.load();
       videoRef.current.playbackRate = playbackRate;
       videoRef.current.play();
+      setIsPlaying(true);
     } else {
       setInitialRender(false);
     }
