@@ -44,6 +44,7 @@ const VideoPlayer = ({
   useEffect(() => {
     if (!initialRender && videoRef.current) {
       videoRef.current.load();
+      videoRef.current.playbackRate = playbackRate;
       videoRef.current.play();
     } else {
       setInitialRender(false);
