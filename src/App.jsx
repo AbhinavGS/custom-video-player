@@ -1,8 +1,9 @@
 import { useState } from "react";
-import "./App.scss";
-import Playlist from "./components/Playlist/Playlist";
-import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
 import PlayerContext from "./context";
+
+import { VideoPlayer, Playlist } from "./components";
+
+import "./App.scss";
 
 function App() {
   const [isPlaying, setIsPlaying] = useState(false);

@@ -1,21 +1,21 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import "./Playlist.scss";
-
-import mediaJSON from "../../data";
 import { useRef, useState, useContext } from "react";
 import PlayerContext from "../../context";
 
+import "./Playlist.scss";
+
+import mediaJSON from "../../data";
 const videosData = mediaJSON["categories"][0]["videos"];
 
 const Playlist = () => {
   const { isPlaying, setIsPlaying, currentPlayingIdx, setCurrentPlayingIdx } =
     useContext(PlayerContext);
-  const [videos, setVideos] = useState(videosData);
-  const [isPlaylistCardOnClicked, setIsPlaylistCardOnClicked] = useState(false);
 
   const dragVideo = useRef(0);
   const draggedOverVideo = useRef(0);
+  
+  const [videos, setVideos] = useState(videosData);
 
   function handleSort() {
     const videoClone = [...videos];
@@ -51,11 +51,7 @@ const Playlist = () => {
               <h3>{video.title}</h3>
               <p>{video.subtitle}</p>
             </div>
-            <span
-              className="drag-handle"
-              onMouseDown={() => setIsPlaylistCardOnClicked(true)}
-              onMouseUp={() => setIsPlaylistCardOnClicked(false)}
-            />
+            <span className="drag-handle" />
           </div>
         );
       })}

@@ -1,28 +1,29 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import "./VideoPlayer.scss";
-
-import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
-import SkipNextRoundedIcon from "@mui/icons-material/SkipNextRounded";
-import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
-import VolumeOffRoundedIcon from "@mui/icons-material/VolumeOffRounded";
-import VolumeDownRoundedIcon from "@mui/icons-material/VolumeDownRounded";
-import PictureInPictureAltRoundedIcon from "@mui/icons-material/PictureInPictureAltRounded";
-import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
-import FullscreenExitRoundedIcon from "@mui/icons-material/FullscreenExitRounded";
-import { formatDuration } from "../../utils";
 import { useRef, useEffect, useState, useContext } from "react";
 import PlayerContext from "../../context";
+import "./VideoPlayer.scss";
 
+import {
+  PlayArrowRoundedIcon,
+  PauseRoundedIcon,
+  SkipNextRoundedIcon,
+  VolumeUpRoundedIcon,
+  VolumeOffRoundedIcon,
+  VolumeDownRoundedIcon,
+  PictureInPictureAltRoundedIcon,
+  FullscreenRoundedIcon,
+  FullscreenExitRoundedIcon,
+} from "../../assets";
+
+import { formatDuration } from "../../utils";
 
 import mediaJSON from "../../data";
 
 const videos = mediaJSON["categories"][0]["videos"];
 const VideoPlayer = () => {
-
   const { isPlaying, setIsPlaying, currentPlayingIdx, setCurrentPlayingIdx } =
-  useContext(PlayerContext);
+    useContext(PlayerContext);
 
   const videoRef = useRef(null);
   const timelineRef = useRef(null);
@@ -129,7 +130,6 @@ const VideoPlayer = () => {
       percentageCompletion
     );
 
-    // scrubbing logic
     if (isScrubbing) {
       setPercentageCompletion(percent);
       e.preventDefault();
