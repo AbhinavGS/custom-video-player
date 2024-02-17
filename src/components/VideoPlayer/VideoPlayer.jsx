@@ -27,8 +27,8 @@ const VideoPlayer = ({
   const timelineRef = useRef(null);
   const videoPlayerRef = useRef(null);
   const dataLoaded = useRef(false);
-  const initialRender = useRef(true);
 
+  const [initialRender, setInitialRender] = useState(1);
   const [volume, setVolume] = useState(1);
   const [previousVolume, setPreviousVolume] = useState(1);
   const [totalTime, setTotalTime] = useState("00:00");
@@ -46,8 +46,9 @@ const VideoPlayer = ({
       videoRef.current.load();
       videoRef.current.play();
     } else {
-      initialRender.current = false;
+      setInitialRender(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPlayingIdx]);
 
   const togglePlayPause = () => {
@@ -59,7 +60,7 @@ const VideoPlayer = ({
     setIsPlaying(!isPlaying);
   };
 
-  const handleNextButton = () => {
+  const handleNextPlay = () => {
     const lastIdx = videos.length - 1;
     setCurrentPlayingIdx((idx) => {
       if (idx == lastIdx) return 0;
@@ -162,9 +163,9 @@ const VideoPlayer = ({
     setIsPIPMode(!isPIPMode);
   }
 
-  function handleNextPlay() {
-    setCurrentPlayingIdx((idx) => idx + 1);
-  }
+  // function handleNextPlay() {
+  //   setCurrentPlayingIdx((idx) => idx + 1);
+  // }
 
   return (
     <div
@@ -215,7 +216,7 @@ const VideoPlayer = ({
               <PlayArrowRoundedIcon sx={{ fontSize: 30 }} />
             )}
           </button>
-          <button onClick={handleNextButton}>
+          <button onClick={handleNextPlay}>
             <SkipNextRoundedIcon sx={{ fontSize: 30 }} />
           </button>
           <div className="volume-container">
