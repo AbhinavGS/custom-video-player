@@ -12,17 +12,18 @@ import PictureInPictureAltRoundedIcon from "@mui/icons-material/PictureInPicture
 import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
 import FullscreenExitRoundedIcon from "@mui/icons-material/FullscreenExitRounded";
 import { formatDuration } from "../../utils";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
+import PlayerContext from "../../context";
+
 
 import mediaJSON from "../../data";
 
 const videos = mediaJSON["categories"][0]["videos"];
-const VideoPlayer = ({
-  isPlaying,
-  setIsPlaying,
-  currentPlayingIdx,
-  setCurrentPlayingIdx,
-}) => {
+const VideoPlayer = () => {
+
+  const { isPlaying, setIsPlaying, currentPlayingIdx, setCurrentPlayingIdx } =
+  useContext(PlayerContext);
+
   const videoRef = useRef(null);
   const timelineRef = useRef(null);
   const videoPlayerRef = useRef(null);

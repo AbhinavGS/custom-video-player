@@ -3,16 +3,14 @@
 import "./Playlist.scss";
 
 import mediaJSON from "../../data";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
+import PlayerContext from "../../context";
 
 const videosData = mediaJSON["categories"][0]["videos"];
 
-const Playlist = ({
-  isPlaying,
-  setIsPlaying,
-  currentPlayingIdx,
-  setCurrentPlayingIdx,
-}) => {
+const Playlist = () => {
+  const { isPlaying, setIsPlaying, currentPlayingIdx, setCurrentPlayingIdx } =
+    useContext(PlayerContext);
   const [videos, setVideos] = useState(videosData);
   const [isPlaylistCardOnClicked, setIsPlaylistCardOnClicked] = useState(false);
 
