@@ -12,6 +12,8 @@ import {
   FullscreenExitRoundedIcon,
 } from "../../assets";
 
+import "./ControlPanel.scss";
+
 const ControlPanel = ({
   isPlaying,
   togglePlayPause,
