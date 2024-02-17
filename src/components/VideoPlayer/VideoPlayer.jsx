@@ -1,18 +1,7 @@
 import { useRef, useEffect, useState, useContext } from "react";
 import PlayerContext from "../../context";
 import "./VideoPlayer.scss";
-
-import {
-  PlayArrowRoundedIcon,
-  PauseRoundedIcon,
-  SkipNextRoundedIcon,
-  VolumeUpRoundedIcon,
-  VolumeOffRoundedIcon,
-  VolumeDownRoundedIcon,
-  PictureInPictureAltRoundedIcon,
-  FullscreenRoundedIcon,
-  FullscreenExitRoundedIcon,
-} from "../../assets";
+import { ControlPanel } from "../../components";
 
 import { formatDuration } from "../../utils";
 
@@ -73,19 +62,19 @@ const VideoPlayer = () => {
   const toggleMute = () => {
     if (videoRef.current.muted) {
       videoRef.current.muted = false;
-      setVolume(previousVolume);
+      setVolume(Number(previousVolume));
     } else {
-      setPreviousVolume(volume);
+      setPreviousVolume(Number(volume));
       videoRef.current.muted = true;
       setVolume(0);
     }
   };
 
   const handleVideoVolume = (e) => {
-    setVolume(e.target.value);
+    setVolume(Number(e.target.value));
     videoRef.current.volume = e.target.value;
     if (e.target.value > 0) {
-      setPreviousVolume(e.target.value);
+      setPreviousVolume(Number(e.target.value));
       videoRef.current.muted = false;
     } else setPreviousVolume(1);
   };
@@ -194,68 +183,24 @@ const VideoPlayer = () => {
         />
         Your browser does not support HTML video.
       </video>
-      <div className="control-panel">
-        <div
-          ref={timelineRef}
-          className="timeline-container"
-          onMouseMove={(e) => handleTimelineUpdates(e)}
-          onMouseDown={(e) => toggleScrubbing(e)}
-        >
-          <div className="timeline">
-            <div className="thumb-indicator"></div>
-          </div>
-        </div>
-        <div className="controls">
-          <button className="btn-play-pause" onClick={togglePlayPause}>
-            {isPlaying ? (
-              <PauseRoundedIcon sx={{ fontSize: 30 }} />
-            ) : (
-              <PlayArrowRoundedIcon sx={{ fontSize: 30 }} />
-            )}
-          </button>
-          <button onClick={handleNextPlay}>
-            <SkipNextRoundedIcon sx={{ fontSize: 30 }} />
-          </button>
-          <div className="volume-container">
-            <button onClick={toggleMute} className="mute-btn">
-              {volume == 0 ? (
-                <VolumeOffRoundedIcon sx={{ fontSize: 30 }} />
-              ) : volume < 0.3 ? (
-                <VolumeDownRoundedIcon sx={{ fontSize: 30 }} />
-              ) : (
-                <VolumeUpRoundedIcon sx={{ fontSize: 30 }} />
-              )}
-            </button>
-            <input
-              className="volume-slider"
-              type="range"
-              min={0}
-              max={1}
-              step="any"
-              value={volume}
-              onChange={handleVideoVolume}
-            ></input>
-          </div>
-          <div className="duration-container">
-            <div className="current-time">{currentTime}</div>/
-            <div className="total-time">{totalTime}</div>
-          </div>
-          <button className="speed-btn wide-btn" onClick={handlePlaybackSpeed}>
-            {playbackRate}x
-          </button>
-          <button className="mini-player-btn" onClick={handlePIPMode}>
-            <PictureInPictureAltRoundedIcon />
-          </button>
-
-          <button className="full-screen-btn" onClick={handleFullScreen}>
-            {isFullscreen ? (
-              <FullscreenExitRoundedIcon />
-            ) : (
-              <FullscreenRoundedIcon />
-            )}
-          </button>
-        </div>
-      </div>
+      <ControlPanel
+        isPlaying={isPlaying}
+        togglePlayPause={togglePlayPause}
+        handleNextPlay={handleNextPlay}
+        toggleMute={toggleMute}
+        volume={volume}
+        handleVideoVolume={handleVideoVolume}
+        currentTime={currentTime}
+        totalTime={totalTime}
+        playbackRate={playbackRate}
+        handlePlaybackSpeed={handlePlaybackSpeed}
+        handlePIPMode={handlePIPMode}
+        handleFullScreen={handleFullScreen}
+        isFullscreen={isFullscreen}
+        timelineRef={timelineRef}
+        handleTimelineUpdates={handleTimelineUpdates}
+        toggleScrubbing={toggleScrubbing}
+      />
     </div>
   );
 };
