@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import { useRef, useState, useContext } from "react";
 import PlayerContext from "../../context";
 
@@ -9,12 +7,12 @@ import mediaJSON from "../../data";
 const videosData = mediaJSON["categories"][0]["videos"];
 
 const Playlist = () => {
-  const { isPlaying, setIsPlaying, currentPlayingIdx, setCurrentPlayingIdx } =
+  const { setIsPlaying, currentPlayingIdx, setCurrentPlayingIdx } =
     useContext(PlayerContext);
 
   const dragVideo = useRef(0);
   const draggedOverVideo = useRef(0);
-  
+
   const [videos, setVideos] = useState(videosData);
 
   function handleSort() {
