@@ -1,8 +1,62 @@
-# React + Vite
+# Custom video player
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## **How to install and run locally ?**
 
-Currently, two official plugins are available:
+```
+$ git clone https://github.com/AbhinavGS/custom-video-player
+$ cd custom-video-player
+$ npm install
+$ npm run dev
+```
+## **Features -**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Custom video player from scratch without any package/library
+- Custom playlist from scratch without any package/library
+- Draggable playlist (re-arrange using drag and drop)
+- State management without using an external library
+- All basic functionality with fullscreen, PIP, Playback rate change support
+- Autoplay next video functionality
+- Keyboard shortcuts for keyboard Ninjas:
+  - f: toggle fullscreen
+  - m: toggle mute
+  - p: toggle PIP (Picture In Picture) mode
+  - r: change video playback speed
+  - spacebar: toggle play/pause
+  - arrow right: play next
+ - Fully Responsive
+
+## **Built with -**
+
+- Vite.js + React JS
+- SASS
+
+## **Folder structure**
+<pre>
+|-- src  
+    |-- assets  
+      |-- index.js  
+    |-- components  
+      |-- ControlPanel  
+        |-- ControlPanel.jsx  
+        |-- ControlPanel.scss  
+      |-- CurrentPlayingVideoCard  
+        |-- CurrentPlayingVideoCard.jsx  
+        |-- CurrentPlayingVideoCard.scss  
+      |-- Playlist  
+        |-- Playlist.jsx  
+        |-- Playlist.scss  
+      |-- PlaylistCard  
+        |-- PlaylistCard.jsx  
+        |-- PlaylistCard.scss  
+      |-- VideoPlayer  
+        |-- VideoPlayer.jsx  
+        |-- VideoPlayer.scss  
+    |-- App.jsx  
+    |-- App.scss  
+    |-- context.js  
+    |-- data.js  
+    |-- index.css  
+    |-- main.jsx  
+    |-- utils.js  
+|-- index.html  
+</pre>
