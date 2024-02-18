@@ -4,9 +4,6 @@ import { useContext } from "react";
 import PropTypes from "prop-types";
 import PlayerContext from "../../context";
 
-import mediaJSON from "../../data";
-const videosData = mediaJSON["categories"][0]["videos"];
-
 const PlaylistCard = ({
   video,
   index,
@@ -14,13 +11,13 @@ const PlaylistCard = ({
   dragVideo,
   draggedOverVideo,
 }) => {
-  const { setIsPlaying, currentPlayingIdx, setCurrentPlayingIdx } =
+  const { videos, setIsPlaying, currentPlayingIdx, setCurrentPlayingIdx } =
     useContext(PlayerContext);
 
   return (
     <div
       className={
-        videosData[currentPlayingIdx].title == video.title
+        videos[currentPlayingIdx].title == video.title
           ? "playlist-card active"
           : "playlist-card"
       }

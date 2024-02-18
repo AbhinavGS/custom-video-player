@@ -5,12 +5,14 @@ import { ControlPanel } from "../../components";
 
 import { formatDuration } from "../../utils";
 
-import mediaJSON from "../../data";
-
-const videos = mediaJSON["categories"][0]["videos"];
 const VideoPlayer = () => {
-  const { isPlaying, setIsPlaying, currentPlayingIdx, setCurrentPlayingIdx } =
-    useContext(PlayerContext);
+  const {
+    videos,
+    isPlaying,
+    setIsPlaying,
+    currentPlayingIdx,
+    setCurrentPlayingIdx,
+  } = useContext(PlayerContext);
 
   const videoRef = useRef(null);
   const timelineRef = useRef(null);

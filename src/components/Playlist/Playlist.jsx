@@ -1,16 +1,14 @@
-import { useRef, useState } from "react";
+import { useRef, useContext } from "react";
 import { PlaylistCard } from "../../components";
+import PlayerContext from "../../context";
 
 import "./Playlist.scss";
 
-import mediaJSON from "../../data";
-const videosData = mediaJSON["categories"][0]["videos"];
-
 const Playlist = () => {
+  const { videos, setVideos } = useContext(PlayerContext);
+
   const dragVideo = useRef(0);
   const draggedOverVideo = useRef(0);
-
-  const [videos, setVideos] = useState(videosData);
 
   function handleSort() {
     const videoClone = [...videos];
