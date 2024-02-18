@@ -9,7 +9,10 @@ const CurrentPlayingVideoCard = () => {
     <div className="current-playing-video-card">
       <span>Now playing...</span>
       <div>
-        <marquee>{`${videos[currentPlayingIdx].title} by ${videos[currentPlayingIdx].subtitle}`}</marquee>
+        <marquee>
+          {videos[currentPlayingIdx].title + " "}
+          <span className="italic">{videos[currentPlayingIdx].subtitle}</span>
+        </marquee>
       </div>
     </div>
   );
