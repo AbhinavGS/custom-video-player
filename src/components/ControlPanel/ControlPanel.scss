@@ -1,0 +1,131 @@
+.control-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: #fff;
+
+  .timeline-container {
+    height: 7px;
+    margin-inline: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    .timeline {
+      background-color: rgba(100, 100, 100, 0.5);
+      height: 3px;
+      width: 100%;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: calc(100% - var(--preview-position) * 100%);
+      background-color: rgb(150, 150, 150);
+      display: none;
+    }
+
+    .timeline::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: calc(100% - var(--progress-position) * 100%);
+      background-color: red;
+    }
+
+    .thumb-indicator {
+      --scale: 0;
+      position: absolute;
+      transform: translateX(-50%) scale(var(--scale));
+      height: 200%;
+      top: -50%;
+      left: calc(var(--progress-position) * 100%);
+      background-color: red;
+      border-radius: 50%;
+      transition: transform 150ms ease-in-out;
+      aspect-ratio: 1 / 1;
+    }
+  }
+
+  .timeline-container:hover {
+    .timeline::before {
+      display: block;
+    }
+
+    .thumb-indicator {
+      --scale: 1;
+    }
+
+    .timeline {
+      height: 100%;
+    }
+  }
+
+  .controls {
+    display: flex;
+
+    .volume-container {
+      display: flex;
+      align-items: center;
+
+      &:hover .volume-slider,
+      &:focus-within .volume-slider {
+        width: 100px;
+        transform: scaleX(1);
+        margin-right: 10px;
+      }
+
+      .volume-slider {
+        width: 0;
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: width 150ms ease-in-out, transform 150ms ease-in-out;
+      }
+    }
+
+    .duration-container {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      flex-grow: 1;
+    }
+  }
+}
+
+button {
+  all: unset;
+  padding: 5px;
+  cursor: pointer;
+}
+
+svg {
+  vertical-align: middle;
+}
+
+input[type="range"] {
+  appearance: none;
+
+  &::-webkit-slider-runnable-track {
+    border-radius: 10px;
+    height: 3px;
+    background-color: #fff;
+  }
+
+  &::-webkit-slider-thumb {
+    background: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    margin-top: -4px;
+    margin-right: 5px;
+    -webkit-appearance: none;
+  }
+}

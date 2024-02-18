@@ -1,28 +1,19 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
+import { useRef, useEffect, useState, useContext } from "react";
+import PlayerContext from "../../context";
 import "./VideoPlayer.scss";
+import { ControlPanel } from "../../components";
 
-import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
-import SkipNextRoundedIcon from "@mui/icons-material/SkipNextRounded";
-import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
-import VolumeOffRoundedIcon from "@mui/icons-material/VolumeOffRounded";
-import VolumeDownRoundedIcon from "@mui/icons-material/VolumeDownRounded";
-import PictureInPictureAltRoundedIcon from "@mui/icons-material/PictureInPictureAltRounded";
-import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
-import FullscreenExitRoundedIcon from "@mui/icons-material/FullscreenExitRounded";
 import { formatDuration } from "../../utils";
-import { useRef, useEffect, useState } from "react";
 
-import mediaJSON from "../../data";
+const VideoPlayer = () => {
+  const {
+    videos,
+    isPlaying,
+    setIsPlaying,
+    currentPlayingIdx,
+    setCurrentPlayingIdx,
+  } = useContext(PlayerContext);
 
-const videos = mediaJSON["categories"][0]["videos"];
-const VideoPlayer = ({
-  isPlaying,
-  setIsPlaying,
-  currentPlayingIdx,
-  setCurrentPlayingIdx,
-}) => {
   const videoRef = useRef(null);
   const timelineRef = useRef(null);
   const videoPlayerRef = useRef(null);
@@ -73,19 +64,19 @@ const VideoPlayer = ({
   const toggleMute = () => {
     if (videoRef.current.muted) {
       videoRef.current.muted = false;
-      setVolume(previousVolume);
+      setVolume(Number(previousVolume));
     } else {
-      setPreviousVolume(volume);
+      setPreviousVolume(Number(volume));
       videoRef.current.muted = true;
       setVolume(0);
     }
   };
 
   const handleVideoVolume = (e) => {
-    setVolume(e.target.value);
+    setVolume(Number(e.target.value));
     videoRef.current.volume = e.target.value;
     if (e.target.value > 0) {
-      setPreviousVolume(e.target.value);
+      setPreviousVolume(Number(e.target.value));
       videoRef.current.muted = false;
     } else setPreviousVolume(1);
   };
@@ -128,7 +119,6 @@ const VideoPlayer = ({
       percentageCompletion
     );
 
-    // scrubbing logic
     if (isScrubbing) {
       setPercentageCompletion(percent);
       e.preventDefault();
@@ -195,68 +185,24 @@ const VideoPlayer = ({
         />
         Your browser does not support HTML video.
       </video>
-      <div className="control-panel">
-        <div
-          ref={timelineRef}
-          className="timeline-container"
-          onMouseMove={(e) => handleTimelineUpdates(e)}
-          onMouseDown={(e) => toggleScrubbing(e)}
-        >
-          <div className="timeline">
-            <div className="thumb-indicator"></div>
-          </div>
-        </div>
-        <div className="controls">
-          <button className="btn-play-pause" onClick={togglePlayPause}>
-            {isPlaying ? (
-              <PauseRoundedIcon sx={{ fontSize: 30 }} />
-            ) : (
-              <PlayArrowRoundedIcon sx={{ fontSize: 30 }} />
-            )}
-          </button>
-          <button onClick={handleNextPlay}>
-            <SkipNextRoundedIcon sx={{ fontSize: 30 }} />
-          </button>
-          <div className="volume-container">
-            <button onClick={toggleMute} className="mute-btn">
-              {volume == 0 ? (
-                <VolumeOffRoundedIcon sx={{ fontSize: 30 }} />
-              ) : volume < 0.3 ? (
-                <VolumeDownRoundedIcon sx={{ fontSize: 30 }} />
-              ) : (
-                <VolumeUpRoundedIcon sx={{ fontSize: 30 }} />
-              )}
-            </button>
-            <input
-              className="volume-slider"
-              type="range"
-              min={0}
-              max={1}
-              step="any"
-              value={volume}
-              onChange={handleVideoVolume}
-            ></input>
-          </div>
-          <div className="duration-container">
-            <div className="current-time">{currentTime}</div>/
-            <div className="total-time">{totalTime}</div>
-          </div>
-          <button className="speed-btn wide-btn" onClick={handlePlaybackSpeed}>
-            {playbackRate}x
-          </button>
-          <button className="mini-player-btn" onClick={handlePIPMode}>
-            <PictureInPictureAltRoundedIcon />
-          </button>
-
-          <button className="full-screen-btn" onClick={handleFullScreen}>
-            {isFullscreen ? (
-              <FullscreenExitRoundedIcon />
-            ) : (
-              <FullscreenRoundedIcon />
-            )}
-          </button>
-        </div>
-      </div>
+      <ControlPanel
+        isPlaying={isPlaying}
+        togglePlayPause={togglePlayPause}
+        handleNextPlay={handleNextPlay}
+        toggleMute={toggleMute}
+        volume={volume}
+        handleVideoVolume={handleVideoVolume}
+        currentTime={currentTime}
+        totalTime={totalTime}
+        playbackRate={playbackRate}
+        handlePlaybackSpeed={handlePlaybackSpeed}
+        handlePIPMode={handlePIPMode}
+        handleFullScreen={handleFullScreen}
+        isFullscreen={isFullscreen}
+        timelineRef={timelineRef}
+        handleTimelineUpdates={handleTimelineUpdates}
+        toggleScrubbing={toggleScrubbing}
+      />
     </div>
   );
 };

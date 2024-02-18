@@ -1,20 +1,11 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
+import { useRef, useContext } from "react";
+import { PlaylistCard, CurrentPlayingVideoCard } from "../../components";
+import PlayerContext from "../../context";
+
 import "./Playlist.scss";
 
-import mediaJSON from "../../data";
-import { useRef, useState } from "react";
-
-const videosData = mediaJSON["categories"][0]["videos"];
-
-const Playlist = ({
-  isPlaying,
-  setIsPlaying,
-  currentPlayingIdx,
-  setCurrentPlayingIdx,
-}) => {
-  const [videos, setVideos] = useState(videosData);
-  const [isPlaylistCardOnClicked, setIsPlaylistCardOnClicked] = useState(false);
+const Playlist = () => {
+  const { videos, setVideos, currentPlayingIdx } = useContext(PlayerContext);
 
   const dragVideo = useRef(0);
   const draggedOverVideo = useRef(0);
@@ -27,39 +18,20 @@ const Playlist = ({
   }
   return (
     <div className="playlist">
+      <CurrentPlayingVideoCard />
       {videos.map((video, index) => {
-        return (
-          <div
-            className={
-              videosData[currentPlayingIdx].title == video.title
-                ? "playlist-card active"
-                : "playlist-card"
-            }
-            key={video["title"]}
-            onClick={() => {
-              setCurrentPlayingIdx(index);
-              setIsPlaying(true);
-            }}
-            draggable
-            onDragStart={() => (dragVideo.current = index)}
-            onDragEnter={() => (draggedOverVideo.current = index)}
-            onDragEnd={handleSort}
-            onDragOver={(e) => e.preventDefault()}
-          >
-            <div className="playlist-card-image">
-              <img src={video.thumb} />
-            </div>
-            <div className="playlist-card-details">
-              <h3>{video.title}</h3>
-              <p>{video.subtitle}</p>
-            </div>
-            <span
-              className="drag-handle"
-              onMouseDown={() => setIsPlaylistCardOnClicked(true)}
-              onMouseUp={() => setIsPlaylistCardOnClicked(false)}
+        if (videos[currentPlayingIdx].title !== video.title) {
+          return (
+            <PlaylistCard
+              key={video["title"]}
+              video={video}
+              index={index}
+              handleSort={handleSort}
+              dragVideo={dragVideo}
+              draggedOverVideo={draggedOverVideo}
             />
-          </div>
-        );
+          );
+        }
       })}
     </div>
   );
