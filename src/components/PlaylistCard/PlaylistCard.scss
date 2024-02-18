@@ -16,13 +16,13 @@
     }
   }
   .playlist-card-details {
-    h3,
-    p {
+    h3 {
       margin: 0;
       font-weight: 500;
     }
 
     p {
+      margin: 0;
       font-weight: 300;
       font-size: 0.8rem;
     }
@@ -30,19 +30,19 @@
     padding: 0 1rem;
     width: 100%;
   }
+
+  .drag-handle {
+    align-self: center;
+    cursor: grab;
+  }
+
+  .drag-handle::after {
+    content: "⠿";
+    font-size: 25px;
+    color: #555;
+  }
 }
 
 .active {
   background-color: #333;
-}
-
-.drag-handle {
-  align-self: center;
-  cursor: grab;
-}
-
-.drag-handle::after {
-  content: "⠿";
-  font-size: 25px;
-  color: #555;
 }

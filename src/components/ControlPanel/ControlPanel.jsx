@@ -56,7 +56,7 @@ const ControlPanel = ({
           <SkipNextRoundedIcon sx={{ fontSize: 30 }} />
         </button>
         <div className="volume-container">
-          <button onClick={toggleMute} className="mute-btn">
+          <button onClick={toggleMute}>
             {volume == 0 ? (
               <VolumeOffRoundedIcon sx={{ fontSize: 30 }} />
             ) : volume < 0.3 ? (
