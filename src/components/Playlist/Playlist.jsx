@@ -1,11 +1,11 @@
 import { useRef, useContext } from "react";
-import { PlaylistCard } from "../../components";
+import { PlaylistCard, CurrentPlayingVideoCard } from "../../components";
 import PlayerContext from "../../context";
 
 import "./Playlist.scss";
 
 const Playlist = () => {
-  const { videos, setVideos } = useContext(PlayerContext);
+  const { videos, setVideos, currentPlayingIdx } = useContext(PlayerContext);
 
   const dragVideo = useRef(0);
   const draggedOverVideo = useRef(0);
@@ -18,16 +18,21 @@ const Playlist = () => {
   }
   return (
     <div className="playlist">
-      {videos.map((video, index) => (
-        <PlaylistCard
-          key={video["title"]}
-          video={video}
-          index={index}
-          handleSort={handleSort}
-          dragVideo={dragVideo}
-          draggedOverVideo={draggedOverVideo}
-        />
-      ))}
+      <CurrentPlayingVideoCard />
+      {videos.map((video, index) => {
+        if (videos[currentPlayingIdx].title !== video.title) {
+          return (
+            <PlaylistCard
+              key={video["title"]}
+              video={video}
+              index={index}
+              handleSort={handleSort}
+              dragVideo={dragVideo}
+              draggedOverVideo={draggedOverVideo}
+            />
+          );
+        }
+      })}
     </div>
   );
 };
