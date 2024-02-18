@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 
 import {
@@ -32,6 +33,41 @@ const ControlPanel = ({
   handleTimelineUpdates,
   toggleScrubbing,
 }) => {
+  useEffect(() => {
+    function handleKeyDown(e) {
+      const event = e.key.toLowerCase();
+      switch (event) {
+        case "f":
+          handleFullScreen();
+          break;
+        case "m":
+          toggleMute();
+          break;
+        case "p":
+          handlePIPMode();
+          break;
+        case "r":
+          handlePlaybackSpeed();
+          break;
+        case " ":
+          togglePlayPause();
+          break;
+        case "arrowright":
+          handleNextPlay();
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleFullScreen, handleNextPlay, handlePIPMode, handlePlaybackSpeed, toggleMute, togglePlayPause]);
+
   return (
     <div className="control-panel">
       <div
